@@ -1,0 +1,61 @@
+.delete-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.delete-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.movie-list {
+  margin-bottom: 20px;
+}
+
+.movie-item {
+  display: block;
+  padding: 8px 0;
+  font-size: 16px;
+}
+
+.movie-item input {
+  margin-right: 10px;
+}
+
+.no-results {
+  text-align: center;
+  color: #777;
+}
+
+.delete-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #dc2626;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-button:disabled {
+  background-color: #fca5a5;
+  cursor: not-allowed;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
