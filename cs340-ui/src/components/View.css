@@ -1,0 +1,79 @@
+/* Container: centered card layout */
+.view-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Header */
+  .view-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 26px;
+    font-weight: 600;
+  }
+  
+  /* Dropdown label */
+  .view-container label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+  }
+  
+  /* Dropdown */
+  .view-container select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+  
+  .view-container select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    outline: none;
+  }
+  
+  /* List styling */
+  .view-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .view-list li {
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    font-size: 15px;
+    color: #333;
+    transition: background-color 0.2s;
+  }
+  
+  .view-list li:hover {
+    background-color: #eef4ff;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 500px) {
+    .view-container {
+      padding: 20px 15px;
+    }
+  
+    .view-list li {
+      font-size: 14px;
+      padding: 10px 12px;
+    }
+  }
+  
