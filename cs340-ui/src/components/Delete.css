@@ -46,16 +46,16 @@
   font-size: 16px;
   border: none;
   border-radius: 6px;
-  background-color: #dc2626;
+  background-color: #cd4a38;
   color: white;
   cursor: pointer;
 }
 
 .delete-button:disabled {
-  background-color: #fca5a5;
+  background-color: #fc8070;
   cursor: not-allowed;
 }
 
 .delete-button:hover:not(:disabled) {
-  background-color: #b91c1c;
+  background-color: #cd4a38;
 }

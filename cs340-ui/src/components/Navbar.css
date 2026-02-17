@@ -38,14 +38,14 @@
 
 /* Hover state */
 .nav-link:hover {
-  background-color: #e9f2ff;
-  color: #007bff;
+  background-color: #f7e5e3;
+  color: #fc8070;
   transform: translateY(-1px);
 }
 
 /* Active route */
 .nav-link.active {
-  background-color: #007bff;
+  background-color: #fc8070;
   color: white;
 }
 
