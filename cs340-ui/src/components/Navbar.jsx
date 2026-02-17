@@ -9,19 +9,19 @@ function Navbar() {
             </NavLink>
 
             <NavLink to="/create" className="nav-link">
-                Create
+                Create Movie
             </NavLink>
 
             <NavLink to="/view" className="nav-link">
-                View
+                View by Category
             </NavLink>
 
-            <NavLink to="/update" className="nav-link">
-                Update
+            <NavLink to="/update-actors" className="nav-link">
+                Update Actors
             </NavLink>
 
             <NavLink to="/delete" className="nav-link">
-                Delete
+                Delete Movie
             </NavLink>
         </nav>
     );

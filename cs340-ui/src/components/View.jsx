@@ -62,7 +62,7 @@ const View = () => {
 
   return (
     <div className="view-container">
-      <h2>View Database</h2>
+      <h2>View Database by Category</h2>
 
       <label>Choose a category:</label>
       <select

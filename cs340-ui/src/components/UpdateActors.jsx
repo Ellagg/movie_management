@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./Update.css";
+import "./UpdateActors.css";
 
-const Update = () => {
+const UpdateActors = () => {
   // Dummy data
   const actors = [
     { id: 1, name: "Tsunehiko Kamijō" },
@@ -38,7 +38,7 @@ const Update = () => {
 
   return (
     <div className="update-container">
-      <h2>Update Actor's Movies</h2>
+      <h2>Update the movies an actor has been in</h2>
 
       {/* Actor Dropdown */}
       <label>Select Actor:</label>
@@ -72,4 +72,4 @@ const Update = () => {
   );
 };
 
-export default Update;
+export default UpdateActors;

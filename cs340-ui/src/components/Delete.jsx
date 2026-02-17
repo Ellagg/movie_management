@@ -11,62 +11,51 @@ export default function Delete() {
     { id: 5, title: "The Dark Knight" }
   ]);
 
-  const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState([]);
-
-  const filteredMovies = movies.filter(movie =>
-    movie.title.toLowerCase().includes(search.toLowerCase())
-  );
-
-  const toggleSelect = (id) => {
-    setSelected(prev =>
-      prev.includes(id)
-        ? prev.filter(mid => mid !== id)
-        : [...prev, id]
-    );
-  };
+   const [titleToDelete, setTitleToDelete] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleDelete = () => {
-    setMovies(prev => prev.filter(movie => !selected.includes(movie.id)));
-    setSelected([]);
+    const trimmedTitle = titleToDelete.trim().toLowerCase();
+
+    if (!trimmedTitle) {
+      setMessage("Please enter a movie title.");
+      return;
+    }
+
+    const exists = movies.some(
+      movie => movie.title.toLowerCase() === trimmedTitle
+    );
+
+    if (!exists) {
+      setMessage("Movie not found.");
+      return;
+    }
+
+    setMovies(prev =>
+      prev.filter(movie => movie.title.toLowerCase() !== trimmedTitle)
+    );
+
+    setTitleToDelete("");
+    setMessage("Movie deleted successfully.");
   };
 
   return (
     <div className="delete-container">
-      <h2>Delete Movies</h2>
+      <h2>Delete a Movie</h2>
 
+      <label>Movie Title</label>
       <input
         type="text"
-        placeholder="Search movies by title..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="search-input"
+        placeholder="Enter movie title..."
+        value={titleToDelete}
+        onChange={(e) => setTitleToDelete(e.target.value)}
       />
 
-      <div className="movie-list">
-        {filteredMovies.length === 0 && (
-          <p className="no-results">No movies found.</p>
-        )}
-
-        {filteredMovies.map(movie => (
-          <label key={movie.id} className="movie-item">
-            <input
-              type="checkbox"
-              checked={selected.includes(movie.id)}
-              onChange={() => toggleSelect(movie.id)}
-            />
-            {movie.title}
-          </label>
-        ))}
-      </div>
-
-      <button
-        className="delete-button"
-        disabled={selected.length === 0}
-        onClick={handleDelete}
-      >
-        Delete Selected
+      <button onClick={handleDelete}>
+        Delete Movie
       </button>
+
+      {message && <p className="delete-message">{message}</p>}
     </div>
   );
 }
