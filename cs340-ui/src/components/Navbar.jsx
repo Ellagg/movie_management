@@ -12,6 +12,10 @@ function Navbar() {
                 Create Movie
             </NavLink>
 
+            <NavLink to="/create-actor" className="nav-link">
+                Create Actor
+            </NavLink>
+
             <NavLink to="/view" className="nav-link">
                 View by Category
             </NavLink>

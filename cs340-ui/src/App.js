@@ -6,6 +6,7 @@ import UpdateActors from "./components/UpdateActors";
 import Delete from "./components/Delete";
 import Navbar from "./components/Navbar";
 import "./App.css";
+import CreateActor from "./components/CreateActor";
 
 
 function Home() {
@@ -35,6 +36,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<Create />} />
+          <Route path="/create-actor" element={<CreateActor />} />
           <Route path="/view" element={<View />} />
           <Route path="/update-actors" element={<UpdateActors />} />
           <Route path="/delete" element={<Delete />} />

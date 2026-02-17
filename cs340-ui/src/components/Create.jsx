@@ -1,51 +1,44 @@
 import React, { useState } from "react";
-import "./Create.css"
+import "./Create.css";
 
 const Create = () => {
   const [title, setTitle] = useState("");
-  const [director, setDirector] = useState("");
-  const [genre, setGenre] = useState("");
-  const [actors, setActors] = useState([""]);
+  const [releaseDate, setReleaseDate] = useState("");
+  const [genreID, setGenreID] = useState("");
+  const [directorID, setDirectorID] = useState("");
 
-  // Handle actor input change
-  const handleActorChange = (index, value) => {
-    const newActors = [...actors];
-    newActors[index] = value;
-    setActors(newActors);
-  };
-
-  // Add a new actor input
-  const addActor = () => {
-    setActors([...actors, ""]);
-  };
-
-  // Remove an actor input
-  const removeActor = (index) => {
-    const newActors = actors.filter((_, i) => i !== index);
-    setActors(newActors);
-  };
+  // Hard-coded dummy directors
+  const directors = [
+    { id: 1, name: "Christopher Nolan" },
+    { id: 2, name: "Quentin Tarantino" },
+    { id: 3, name: "Greta Gerwig" },
+    { id: 4, name: "Martin Scorsese" }
+  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // For now, just log the movie data
-    console.log({
-      title,
-      director,
-      genre,
-      actors: actors.filter((actor) => actor.trim() !== "")
-    });
 
-    // Clear form after submit
+    const movieData = {
+      title,
+      releaseDate,
+      genreID: Number(genreID),
+      directorID: Number(directorID)
+    };
+
+    console.log("Submitting movie:", movieData);
+
+    // Reset form
     setTitle("");
-    setDirector("");
-    setGenre("");
-    setActors([""]);
+    setReleaseDate("");
+    setGenreID("");
+    setDirectorID("");
   };
 
   return (
     <div className="create-movie-container">
       <h2>Add New Movie</h2>
       <form onSubmit={handleSubmit}>
+
         <div>
           <label>Title:</label>
           <input
@@ -57,11 +50,11 @@ const Create = () => {
         </div>
 
         <div>
-          <label>Director:</label>
+          <label>Release Date:</label>
           <input
-            type="text"
-            value={director}
-            onChange={(e) => setDirector(e.target.value)}
+            type="date"
+            value={releaseDate}
+            onChange={(e) => setReleaseDate(e.target.value)}
             required
           />
         </div>
@@ -69,43 +62,37 @@ const Create = () => {
         <div>
           <label>Genre:</label>
           <select
-            value={genre}
-            onChange={(e) => setGenre(e.target.value)}
+            value={genreID}
+            onChange={(e) => setGenreID(e.target.value)}
             required
           >
             <option value="">--Select Genre--</option>
-            <option value="1">Genre 1</option>
-            <option value="2">Genre 2</option>
-            <option value="3">Genre 3</option>
+            <option value="1">Action</option>
+            <option value="2">Drama</option>
+            <option value="3">Comedy</option>
           </select>
         </div>
 
         <div>
-          <label>Actors:</label>
-          {actors.map((actor, index) => (
-            <div key={index} style={{ display: "flex", marginBottom: "5px" }}>
-              <input
-                type="text"
-                value={actor}
-                onChange={(e) => handleActorChange(index, e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={() => removeActor(index)}
-                style={{ marginLeft: "5px" }}
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button type="button" onClick={addActor}>
-            Add Actor
-          </button>
+          <label>Director:</label>
+          <select
+            value={directorID}
+            onChange={(e) => setDirectorID(e.target.value)}
+            required
+          >
+            <option value="">--Select Director--</option>
+            {directors.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.name}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div style={{ marginTop: "15px" }}>
-          <button type="submit">Create Movie</button>
-        </div>
+        <button type="submit" style={{ marginTop: "15px" }}>
+          Create Movie
+        </button>
+
       </form>
     </div>
   );
