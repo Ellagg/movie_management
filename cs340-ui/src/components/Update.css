@@ -46,8 +46,8 @@
   }
   
   .update-container select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    border-color: #fc8070;
+    box-shadow: 0 0 5px #fc8070;
     outline: none;
   }
   
@@ -79,7 +79,7 @@
     width: 100%;
     padding: 12px;
     margin-top: 25px;
-    background-color: #007bff;
+    background-color: #fc8070;
     color: white;
     font-size: 16px;
     font-weight: 600;
@@ -90,7 +90,7 @@
   }
   
   .update-btn:hover {
-    background-color: #0069d9;
+    background-color: #fc8070;
     transform: translateY(-2px);
   }
   
