@@ -19,6 +19,10 @@ function Navbar() {
             <NavLink to="/update" className="nav-link">
                 Update
             </NavLink>
+
+            <NavLink to="/delete" className="nav-link">
+                Delete
+            </NavLink>
         </nav>
     );
 }
