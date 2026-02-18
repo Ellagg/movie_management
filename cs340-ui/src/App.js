@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Create from "./components/Create";
 import View from "./components/View";
 import UpdateActors from "./components/UpdateActors";
 import Delete from "./components/Delete";
@@ -9,6 +8,7 @@ import "./App.css";
 import CreateActor from "./components/CreateActor";
 import CreateDirector from "./components/CreateDirector";
 import CreateGenre from "./components/CreateGenre";
+import Movies from "./components/Movies";
 
 
 function Home() {
@@ -30,7 +30,7 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/create" element={<Create />} />
+          <Route path="/movies" element={<Movies />} />
           <Route path="/create-actor" element={<CreateActor />} />
           <Route path="/create-director" element={<CreateDirector />} />
           <Route path="/create-genre" element={<CreateGenre />} />

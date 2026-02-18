@@ -8,8 +8,8 @@ function Navbar() {
                 Home
             </NavLink>
 
-            <NavLink to="/create" className="nav-link">
-                Create Movie
+            <NavLink to="/movies" className="nav-link">
+                Movies
             </NavLink>
 
             <NavLink to="/create-actor" className="nav-link">
@@ -17,7 +17,7 @@ function Navbar() {
             </NavLink>
 
             <NavLink to="/create-director" className="nav-link">
-                Create Director
+                Directors
             </NavLink>
 
             <NavLink to="/create-genre" className="nav-link">
@@ -32,9 +32,9 @@ function Navbar() {
                 Update Actors
             </NavLink>
 
-            <NavLink to="/delete" className="nav-link">
+            {/* <NavLink to="/delete" className="nav-link">
                 Delete Movie
-            </NavLink>
+            </NavLink> */}
         </nav>
     );
 }
