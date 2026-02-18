@@ -16,6 +16,14 @@ function Navbar() {
                 Create Actor
             </NavLink>
 
+            <NavLink to="/create-director" className="nav-link">
+                Create Director
+            </NavLink>
+
+            <NavLink to="/create-genre" className="nav-link">
+                Create Genre
+            </NavLink>
+
             <NavLink to="/view" className="nav-link">
                 View by Category
             </NavLink>

@@ -7,6 +7,8 @@ import Delete from "./components/Delete";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import CreateActor from "./components/CreateActor";
+import CreateDirector from "./components/CreateDirector";
+import CreateGenre from "./components/CreateGenre";
 
 
 function Home() {
@@ -15,13 +17,6 @@ function Home() {
   return (
     <div className="home-container">
       <h1>Movie Management</h1>
-
-      {/* <div className="home-buttons">
-        <button onClick={() => navigate("/create")}>Add a New Movie</button>
-        <button onClick={() => navigate("/view")}>View by Category</button>
-        <button onClick={() => navigate("/update")}>Edit an Actor's credits</button>
-        <button onClick={() => navigate("/delete")}>Delete a Movie</button>
-      </div> */}
     </div>
   );
 }
@@ -37,6 +32,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<Create />} />
           <Route path="/create-actor" element={<CreateActor />} />
+          <Route path="/create-director" element={<CreateDirector />} />
+          <Route path="/create-genre" element={<CreateGenre />} />
           <Route path="/view" element={<View />} />
           <Route path="/update-actors" element={<UpdateActors />} />
           <Route path="/delete" element={<Delete />} />
