@@ -13,7 +13,7 @@ function Navbar() {
             </NavLink>
 
             <NavLink to="/create-actor" className="nav-link">
-                Create Actor
+                Actors
             </NavLink>
 
             <NavLink to="/create-director" className="nav-link">
@@ -21,7 +21,7 @@ function Navbar() {
             </NavLink>
 
             <NavLink to="/create-genre" className="nav-link">
-                Create Genre
+                Genres
             </NavLink>
 
             <NavLink to="/view" className="nav-link">
