@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Create.css";
 import "./View.css";
 
 const CreateActor = () => {
-  const [actors, setActors] = useState([
-    { id: 1, name: "Leonardo DiCaprio", age: 49, dob: "1974-11-11", movies: "Inception" },
-    { id: 2, name: "Scarlett Johansson", age: 39, dob: "1984-11-22", movies: "Lost in Translation" },
-    { id: 3, name: "Denzel Washington", age: 69, dob: "1954-12-28", movies: "Training Day" }
-  ]);
+  const [actors, setActors] = useState([]);
+
+  useEffect(() => {
+    const fetchActors = async () => {
+      try {
+        const response = await fetch("http://classwork.engr.oregonstate.edu:7879/api/actors"); // or your deployed backend URL
+        const data = await response.json();
+        setActors(data); // populate state with backend data
+      } catch (err) {
+        console.error("Failed to fetch actors:", err);
+      }
+    };
+
+    fetchActors();
+  }, []);
 
   /* ---------------- CREATE ---------------- */
   const [name, setName] = useState("");
