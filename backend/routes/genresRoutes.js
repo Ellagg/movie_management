@@ -4,7 +4,13 @@ const db = require("../db-connector")
 
 router.get('/', async (req, res) => {
     try{
-      const querySelect = 'SELECT * FROM Genres'
+      const querySelect = `
+        SELECT 
+            g.genreName, 
+            COUNT(m.movieID) AS totalMovies 
+        FROM Genres g 
+        LEFT JOIN Movies m ON g.genreID = m.genreID 
+        GROUP BY g.genreID;`
       const [rows] = await db.query(querySelect);
       res.status(200).send(rows);
     } catch (err) {

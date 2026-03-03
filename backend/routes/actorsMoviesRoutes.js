@@ -6,18 +6,19 @@ router.get('/', async (req, res) => {
     try{
       const querySelect = `
         SELECT 
-            m.title, 
-            m.releaseDate, 
-            g.genreName, 
-            d.name AS directorName 
-        FROM Movies m 
-        JOIN Genres g ON m.genreID = g.genreID 
-        JOIN Directors d ON m.directorID = d.directorID;`;
+            m.movieID,
+            m.title AS movieTitle,
+            GROUP_CONCAT(a.name ORDER BY a.name SEPARATOR ', ') AS actors
+        FROM Movies m
+        LEFT JOIN ActorsInMovies aim ON m.movieID = aim.movieID
+        LEFT JOIN Actors a ON aim.actorID = a.actorID
+        GROUP BY m.movieID, m.title
+        ORDER BY m.movieID;`
       const [rows] = await db.query(querySelect);
       res.status(200).send(rows);
     } catch (err) {
-      console.error("Failed to get movies: ", err);
-      res.status(500).json({ error: "Failed to fetch movies" });
+      console.error("Failed to get actors in movies: ", err);
+      res.status(500).json({ error: "Failed to fetch actors in movies" });
     }
 });
 router.post('/create', async (req, res) => {

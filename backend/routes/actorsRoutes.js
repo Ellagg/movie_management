@@ -4,7 +4,7 @@ const db = require("../db-connector");
 
 router.get('/', async (req, res) => {
     try{
-      const querySelect = 'SELECT * FROM Actors'
+      const querySelect = 'SELECT * FROM Actors;'
       const [rows] = await db.query(querySelect);
       res.status(200).send(rows);
     } catch (err) {

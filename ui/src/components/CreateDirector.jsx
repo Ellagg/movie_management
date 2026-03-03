@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Create.css";
 import "./View.css";
 
 const CreateDirector = () => {
-  const [directors, setDirectors] = useState([
-    { id: 1, name: "Abbas Kiarostami", age: 76, dob: "1940-06-22", movies: "Where Is The Friend's House?" },
-    { id: 2, name: "Hayao Miyazaki", age: 85, dob: "1941-01-05", movies: "Princess Mononoke" },
-    { id: 3, name: "Wes Anderson", age: 56, dob: "1969-05-01", movies: "The Grand Budapest Hotel" }
-  ]);
-
+  const [directors, setDirectors] = useState([]);
+  
+    useEffect(() => {
+      const fetchDirectors = async () => {
+        try {
+          const response = await fetch("http://classwork.engr.oregonstate.edu:7879/api/directors"); // or your deployed backend URL
+          const data = await response.json();
+          setDirectors(data); // populate state with backend data
+        } catch (err) {
+          console.error("Failed to fetch directors:", err);
+        }
+      };
+  
+      fetchDirectors();
+    }, []);
   // CREATE
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -90,7 +99,7 @@ const CreateDirector = () => {
   const renderList = () =>
     directors.map(d => (
       <li key={d.id}>
-        {d.name} — Age {d.age} — DOB {d.dob} — Movies: {d.movies}
+        {d.name} — Age {d.age} — DOB {new Date(d.dob).toLocaleDateString()}
       </li>
     ));
 

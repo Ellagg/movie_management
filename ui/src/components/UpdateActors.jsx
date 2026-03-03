@@ -1,18 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./UpdateActors.css";
 
 const UpdateActors = () => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/actorsMovies");
+        if (!res.ok) throw new Error("Network response was not ok");
+        const data = await res.json();
+        console.log("Fetched movies:", data);
+        setMovies(data);
+      } catch (err) {
+        console.error("Failed to fetch movies with actors:", err);
+      }
+    };
+    fetchMovies();
+  }, []);
+
+  // const renderList = () =>
+  // movies.map((m) => (
+  //   <li key={m.movieID}>
+  //     <strong>{m.movieTitle}</strong>
+  //     <br />
+  //     Actors: {m.actors || "—"}
+  //   </li>
+  // ));
+
   // Dummy data
   const actors = [
     { id: 1, name: "Tsunehiko Kamijō" },
     { id: 2, name: "Adrien Brody" },
     { id: 3, name: "Léa Seydoux" },
-  ];
-
-  const movies = [
-    { id: 1, title: "Where Is The Friend's House?" },
-    { id: 2, title: "Princess Mononoke" },
-    { id: 3, title: "The Grand Budapest Hotel" },
   ];
 
   // Dummy M:M relationships
@@ -37,37 +57,51 @@ const UpdateActors = () => {
   };
 
   return (
-    <div className="update-container">
-      <h2>Update the movies an actor has been in</h2>
-
-      {/* Actor Dropdown */}
-      <label>Select Actor:</label>
-      <select
-        value={selectedActor}
-        onChange={(e) => setSelectedActor(Number(e.target.value))}
-      >
-        {actors.map((actor) => (
-          <option key={actor.id} value={actor.id}>
-            {actor.name}
-          </option>
-        ))}
-      </select>
-
-      <h3>Movies</h3>
-      <div className="movie-checkbox-list">
-        {movies.map((movie) => (
-          <label key={movie.id} className="movie-checkbox-item">
-            <input
-              type="checkbox"
-              checked={actorMovies[selectedActor]?.includes(movie.id)}
-              onChange={() => toggleMovie(movie.id)}
-            />
-            {movie.title}
-          </label>
-        ))}
+    <div>
+      <div className="update-container">
+        <h2>Movies and Actors</h2>
+        <ul>
+          {movies.map((m) => (
+            <li key={m.movieID}>
+              <strong>{m.movieTitle}</strong> 
+              <br />
+              Actors: {m.actors || "—"}
+            </li>
+          ))}
+        </ul>
       </div>
+      <div className="update-container">
+        <h2>Update the movies an actor has been in</h2>
 
-      <button className="update-btn">Save Changes</button>
+        {/* Actor Dropdown */}
+        <label>Select Actor:</label>
+        <select
+          value={selectedActor}
+          onChange={(e) => setSelectedActor(Number(e.target.value))}
+        >
+          {actors.map((actor) => (
+            <option key={actor.id} value={actor.id}>
+              {actor.name}
+            </option>
+          ))}
+        </select>
+
+        <h3>Movies</h3>
+        <div className="movie-checkbox-list">
+          {movies.map((movie) => (
+            <label key={movie.id} className="movie-checkbox-item">
+              <input
+                type="checkbox"
+                checked={actorMovies[selectedActor]?.includes(movie.id)}
+                onChange={() => toggleMovie(movie.id)}
+              />
+              {movie.title}
+            </label>
+          ))}
+        </div>
+
+        <button className="update-btn">Save Changes</button>
+      </div>
     </div>
   );
 };

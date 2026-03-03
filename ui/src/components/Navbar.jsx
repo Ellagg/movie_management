@@ -24,12 +24,12 @@ function Navbar() {
                 Genres
             </NavLink>
 
-            <NavLink to="/view" className="nav-link">
+            {/* <NavLink to="/view" className="nav-link">
                 View by Category
-            </NavLink>
+            </NavLink> */}
 
             <NavLink to="/update-actors" className="nav-link">
-                Update Actors
+                Actor Movies
             </NavLink>
 
             {/* <NavLink to="/delete" className="nav-link">

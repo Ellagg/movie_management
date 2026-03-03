@@ -4,7 +4,7 @@ import "./View.css";
 
 const CreateActor = () => {
   const [actors, setActors] = useState([]);
-
+    
   useEffect(() => {
     const fetchActors = async () => {
       try {
@@ -94,19 +94,26 @@ const CreateActor = () => {
   };
 
   /* ---------------- VIEW ---------------- */
-  const renderList = () =>
-    actors.map(a => (
-      <li key={a.id}>
-        {a.name} — Age {a.age} — DOB {a.dob} — Movies: {a.movies}
-      </li>
-    ));
+  // const renderList = () =>
+  // actors.map(a => (
+  //   <li key={a.actorID}>
+  //     {a.name} — Age {a.age} — DOB {a.dob} — Movies: {a.movies || "—"}
+  //   </li>
+  // ));
 
   return (
     <div>
       {/* VIEW */}
       <div className="view-container">
         <h2>Actors:</h2>
-        <ul className="view-list">{renderList()}</ul>
+        {/* <ul className="view-list">{renderList()}</ul> */}
+        <ul className="view-list">
+          {actors.map(a => (
+            <li key={a.actorID}>
+              {a.name} — Age {a.age} — DOB {new Date(a.dob).toLocaleDateString()}
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* CREATE */}

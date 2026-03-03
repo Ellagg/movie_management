@@ -1,7 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Create.css";
 
 const Movies = () => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(
+          "http://classwork.engr.oregonstate.edu:7879/api/movies"
+        );
+        const data = await response.json();
+        setMovies(data);
+      } catch (err) {
+        console.error("Failed to fetch movies:", err);
+      }
+    };
+
+    fetchMovies();
+  }, []);
+
   const [title, setTitle] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [genreID, setGenreID] = useState("");
@@ -59,13 +77,16 @@ const Movies = () => {
     { id: 3, title: "The Grand Budapest Hotel", year: 2014, genre: "Drama" },
   ];
 
-  const renderList = () => {
-    return example_movies.map((m) => (
-      <li key={m.id}>
-        {m.title} ({m.year}) — Genre: {m.genre}
-      </li>
+  const renderList = () =>
+    movies.map((m) => (
+      <tr key={m.movieID}>
+        <td>{m.title}</td>
+        {/* DOB {new Date(a.dob).toLocaleDateString() */}
+        <td>{new Date (m.releaseDate).toLocaleDateString()}</td>
+        <td>{m.genreName}</td>
+        <td>{m.directorName}</td>
+      </tr>
     ));
-  };
 
   // Hard-coded dummy directors
   const directors = [
@@ -93,14 +114,6 @@ const Movies = () => {
     setGenreID("");
     setDirectorID("");
   };
-
-  const [movies, setMovies] = useState([
-    { id: 1, title: "The Matrix" },
-    { id: 2, title: "The Godfather" },
-    { id: 3, title: "Inception" },
-    { id: 4, title: "Interstellar" },
-    { id: 5, title: "The Dark Knight" }
-  ]);
 
   const [titleToDelete, setTitleToDelete] = useState("");
   const [message, setMessage] = useState("");
@@ -138,7 +151,17 @@ const Movies = () => {
 
     <div className="view-container">
       <h2>Movies:</h2>
-      <ul className="view-list">{renderList()}</ul>
+      <table border="1" cellPadding="5" style={{ borderCollapse: "collapse" }}>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Release Date</th>
+            <th>Genre</th>
+            <th>Director</th>
+          </tr>
+        </thead>
+        <tbody>{renderList()}</tbody>
+      </table>
     </div>
 
     <div className="create-movie-container">

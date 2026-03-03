@@ -1,29 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Create.css";
 import "./View.css";
 
 const CreateGenre = () => {
-  // Dummy data
-  const [genres, setGenres] = useState([
-    { id: 1, genre: "Action", movies: ["Mad Max: Fury Road", "John Wick"] },
-    { id: 2, genre: "Drama", movies: ["The Shawshank Redemption", "Moonlight"] },
-    { id: 3, genre: "Sci-Fi", movies: ["Interstellar", "Blade Runner 2049"] }
-  ]);
-
+  const [genre, setGenre] = useState([]);
   /* ---------------- CREATE ---------------- */
-  const [genre, setGenre] = useState("");
+  const [genres, setGenres] = useState([]);
+  const [newGenre, setNewGenre] = useState("");
+
+  // Fetch genres from backend
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/genres");
+        const data = await res.json();
+        setGenres(data);
+      } catch (err) {
+        console.error("Failed to fetch genres:", err);
+      }
+    };
+
+    fetchGenres();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!newGenre.trim()) return;
 
-    const newGenre = {
-      id: genres.length + 1,
-      genre,
-      movies: [] // new genres start with no movies
+    const genreToAdd = {
+      genreID: genres.length + 1,
+      genreName: newGenre,
+      totalMovies: 0
     };
 
-    setGenres(prev => [...prev, newGenre]);
-    setGenre("");
+    setGenres(prev => [...prev, genreToAdd]);
+    setNewGenre("");
   };
 
   /* ---------------- DELETE ---------------- */
@@ -37,7 +48,7 @@ const CreateGenre = () => {
     }
 
     setGenres(prev =>
-      prev.filter(g => g.id !== Number(genreToDelete))
+      prev.filter(g => g.genreID !== Number(genreToDelete))
     );
 
     setGenreToDelete("");
@@ -47,10 +58,8 @@ const CreateGenre = () => {
   /* ---------------- VIEW ---------------- */
   const renderList = () =>
     genres.map(g => (
-      <li key={g.id}>
-        <strong>{g.genre}</strong>
-        <br />
-        Movies: {g.movies.length > 0 ? g.movies.join(", ") : "—"}
+      <li key={g.genreID}>
+        <strong>{g.genreName}</strong> — Movies: {g.totalMovies}
       </li>
     ));
 
