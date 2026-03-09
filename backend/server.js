@@ -32,6 +32,8 @@ app.use("/api/movies", require("./routes/moviesRoutes"))
 
 app.use("/api/actorsMovies", require("./routes/actorsMoviesRoutes"));
 
+app.use("/api/reset", require("./routes/resetRoute"));
+
 const os = require("os")
 const hostname = os.hostname()
 app.listen(process.env.PORT_NUMBER, () => {

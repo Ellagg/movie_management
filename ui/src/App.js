@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import View from "./components/View";
 import UpdateActors from "./components/UpdateActors";
-import Delete from "./components/Delete";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import CreateActor from "./components/CreateActor";
@@ -34,9 +32,7 @@ export default function App() {
           <Route path="/create-actor" element={<CreateActor />} />
           <Route path="/create-director" element={<CreateDirector />} />
           <Route path="/create-genre" element={<CreateGenre />} />
-          <Route path="/view" element={<View />} />
           <Route path="/update-actors" element={<UpdateActors />} />
-          <Route path="/delete" element={<Delete />} />
         </Routes>
       </Router>
     </>

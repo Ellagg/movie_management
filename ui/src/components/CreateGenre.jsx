@@ -1,58 +1,130 @@
 import React, { useState, useEffect } from "react";
 import "./Create.css";
 import "./View.css";
+import "./Delete.css"
 
 const CreateGenre = () => {
-  const [genre, setGenre] = useState([]);
-  /* ---------------- CREATE ---------------- */
   const [genres, setGenres] = useState([]);
   const [newGenre, setNewGenre] = useState("");
-
+  const [genreToUpdate, setGenreToUpdate] = useState("");
+  const [updatedName, setUpdatedName] = useState("");
+  const [updateMessage, setUpdateMessage] = useState("");
+  const [genreToDelete, setGenreToDelete] = useState("");
+  const [deleteMessage, setDeleteMessage] = useState("");
+  
   // Fetch genres from backend
-  useEffect(() => {
-    const fetchGenres = async () => {
-      try {
-        const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/genres");
-        const data = await res.json();
-        setGenres(data);
-      } catch (err) {
-        console.error("Failed to fetch genres:", err);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchGenres = async () => {
+  //     try {
+  //       const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/genres");
+  //       const data = await res.json();
+  //       setGenres(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch genres:", err);
+  //     }
+  //   };
+    
+  //   fetchGenres();
+  // }, []);
 
+  const fetchGenres = async () => {
+    try {
+      const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/genres");
+      const data = await res.json();
+      setGenres(data);
+    } catch (err) {
+      console.error("Failed to fetch genres:", err);
+    }
+  }
+  
+  useEffect(() => {
     fetchGenres();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newGenre.trim()) return;
 
-    const genreToAdd = {
-      genreID: genres.length + 1,
-      genreName: newGenre,
-      totalMovies: 0
-    };
+    try {
+      const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/genres/create", 
+        {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ genreName: newGenre })
+        }
+      );
 
-    setGenres(prev => [...prev, genreToAdd]);
-    setNewGenre("");
+      if (!res.ok) throw new Error("Failed to create genre");
+
+      const createdGenre = await res.json();
+
+      // Add the new genre to state so it updates the list
+      setGenres(prev => [...prev, createdGenre]);
+      setNewGenre(""); // clear input
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create genre");
+    }
   };
 
-  /* ---------------- DELETE ---------------- */
-  const [genreToDelete, setGenreToDelete] = useState("");
-  const [deleteMessage, setDeleteMessage] = useState("");
+  const handleUpdate = async () => {
+    if (!genreToUpdate || !updatedName.trim()) {
+      setUpdateMessage("Please select a genre and enter a new name.");
+      return;
+    }
 
-  const handleDelete = () => {
+    try {
+      const res = await fetch(
+        "http://classwork.engr.oregonstate.edu:7879/api/genres/update",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            genreID: Number(genreToUpdate),
+            genreName: updatedName
+          })
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to update genre");
+
+      setUpdateMessage("Genre updated successfully.");
+      setGenreToUpdate("");
+      setUpdatedName("");
+
+      fetchGenres(); // refresh list
+
+    } catch (err) {
+      console.error(err);
+      setUpdateMessage("Failed to update genre.");
+    }
+  };
+
+  const handleDelete = async () => {
     if (!genreToDelete) {
       setDeleteMessage("Please select a genre.");
       return;
     }
 
-    setGenres(prev =>
-      prev.filter(g => g.genreID !== Number(genreToDelete))
-    );
+    try {
+      const res = await fetch(
+      `http://classwork.engr.oregonstate.edu:7879/api/genres/delete/${genreToDelete}`,
+        {
+          method: "DELETE"
+        }
+      );
 
-    setGenreToDelete("");
-    setDeleteMessage("Genre deleted successfully.");
+      if (!res.ok) throw new Error("Failed to delete genre");
+
+      setGenreToDelete("");
+      setDeleteMessage("Genre deleted successfully.");
+
+      fetchGenres(); // refresh list
+
+    } catch (err) {
+      console.error(err);
+      setDeleteMessage("Failed to delete genre.");
+    }
   };
 
   /* ---------------- VIEW ---------------- */
@@ -80,8 +152,8 @@ const CreateGenre = () => {
             <label>Genre Name:</label>
             <input
               type="text"
-              value={genre}
-              onChange={(e) => setGenre(e.target.value)}
+              value={newGenre}
+              onChange={(e) => setNewGenre(e.target.value)}
               required
             />
           </div>
@@ -92,8 +164,41 @@ const CreateGenre = () => {
         </form>
       </div>
 
+      {/* UPDATE */}
+      <div className="create-movie-container">
+        <h2>Update Genre</h2>
+
+        <select
+          value={genreToUpdate}
+          onChange={(e) => { 
+            const id = e.target.value;
+            setGenreToUpdate(id);
+            const selectedGenre = genres.find(g => g.genreID == id);
+            setUpdatedName(selectedGenre ? selectedGenre.genreName : "");
+          }}
+        >
+          <option value="">--Select Genre--</option>
+          {genres.map(g => (
+            <option key={g.genreID} value={g.genreID}>
+              {g.genreName}
+            </option>
+          ))}
+        </select>
+
+        <input
+          type="text"
+          placeholder="New Genre Name"
+          value={updatedName}
+          onChange={(e) => setUpdatedName(e.target.value)}
+        />
+
+        <button type="button" onClick={handleUpdate}>Update Genre</button>
+
+        {updateMessage && <p>{updateMessage}</p>}
+      </div>
+
       {/* DELETE */}
-      <div className="delete-container">
+      <div className="create-movie-container">
         <h2>Delete Genre</h2>
 
         <select
@@ -102,7 +207,9 @@ const CreateGenre = () => {
         >
           <option value="">--Select Genre--</option>
           {genres.map(g => (
-            <option key={g.id} value={g.id}>{g.genre}</option>
+            <option key={g.genreID} value={g.genreID}>
+              {g.genreName}
+            </option>
           ))}
         </select>
 
@@ -110,6 +217,7 @@ const CreateGenre = () => {
 
         {deleteMessage && <p className="delete-message">{deleteMessage}</p>}
       </div>
+
     </div>
   );
 };
