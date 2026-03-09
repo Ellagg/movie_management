@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./Create.css";
-import "./View.css";
-import "./Delete.css"
+import "./css/Create.css";
+import "./css/View.css";
+import "./css/Delete.css"
 
 const CreateGenre = () => {
   const [genres, setGenres] = useState([]);

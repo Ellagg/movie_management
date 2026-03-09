@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./UpdateActors.css";
+import "./css/UpdateActors.css";
 
 const UpdateActors = () => {
   const [movies, setMovies] = useState([]);

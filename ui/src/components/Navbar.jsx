@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import "./Navbar.css";
+import "./css/Navbar.css";
 
 function Navbar() {
     const handleReset = async () => {
@@ -31,20 +31,24 @@ function Navbar() {
                 Movies
             </NavLink>
 
-            <NavLink to="/create-actor" className="nav-link">
+            <NavLink to="/actors" className="nav-link">
                 Actors
             </NavLink>
 
-            <NavLink to="/create-director" className="nav-link">
+            <NavLink to="/directors" className="nav-link">
                 Directors
             </NavLink>
 
-            <NavLink to="/create-genre" className="nav-link">
+            <NavLink to="/genres" className="nav-link">
                 Genres
             </NavLink>
 
-            <NavLink to="/update-actors" className="nav-link">
+            <NavLink to="/actors" className="nav-link">
                 Actor Movies
+            </NavLink>
+
+            <NavLink to="/search" className="nav-link">
+                Search
             </NavLink>
 
             <button

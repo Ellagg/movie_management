@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./Create.css";
-import "./View.css";
+import "./css/Create.css";
+import "./css/View.css";
 
 const CreateDirector = () => {
   const [directors, setDirectors] = useState([]);

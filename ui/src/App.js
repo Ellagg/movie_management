@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import UpdateActors from "./components/UpdateActors";
+import Actors from "./components/Actors";
 import Navbar from "./components/Navbar";
 import "./App.css";
-import CreateActor from "./components/CreateActor";
-import CreateDirector from "./components/CreateDirector";
-import CreateGenre from "./components/CreateGenre";
+import ActorMovies from "./components/ActorMovies";
+import Directors from "./components/Directors";
+import Genres from "./components/Genres";
 import Movies from "./components/Movies";
+import Search from "./components/View"
 
 
 function Home() {
@@ -29,10 +30,11 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
-          <Route path="/create-actor" element={<CreateActor />} />
-          <Route path="/create-director" element={<CreateDirector />} />
-          <Route path="/create-genre" element={<CreateGenre />} />
-          <Route path="/update-actors" element={<UpdateActors />} />
+          <Route path="/actors" element={<Actors />} />
+          <Route path="/directors" element={<Directors />} />
+          <Route path="/genres" element={<Genres />} />
+          <Route path="/actorMovies" element={<ActorMovies />} />
+          <Route path="/search" element={<Search />}/>
         </Routes>
       </Router>
     </>

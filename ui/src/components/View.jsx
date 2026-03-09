@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./View.css";
+import "./css/View.css";
 
 const View = () => {
   const movies = [
