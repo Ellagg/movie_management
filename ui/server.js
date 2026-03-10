@@ -3,7 +3,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = 7878; // choose any port between 1025-65535
+const PORT = 7689; // choose any port between 1025-65535
 
 app.use(cors({ origin: "*" }));
 app.use(express.json());

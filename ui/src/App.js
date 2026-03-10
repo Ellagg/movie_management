@@ -33,7 +33,7 @@ export default function App() {
           <Route path="/actors" element={<Actors />} />
           <Route path="/directors" element={<Directors />} />
           <Route path="/genres" element={<Genres />} />
-          <Route path="/actorMovies" element={<ActorMovies />} />
+          <Route path="/actorsMovies" element={<ActorMovies />} />
           <Route path="/search" element={<Search />}/>
         </Routes>
       </Router>

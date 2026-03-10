@@ -1,251 +1,261 @@
 import React, { useState, useEffect } from "react";
 import "./css/Create.css";
+import "./css/View.css";
+import "./css/Delete.css";
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [directors, setDirectors] = useState([]);
+
+  /* ---------------- FETCH DATA ---------------- */
+
+  const fetchMovies = async () => {
+    try {
+      const res = await fetch("http://classwork.engr.oregonstate.edu:7689/api/movies");
+      const data = await res.json();
+      setMovies(data);
+    } catch (err) {
+      console.error("Failed to fetch movies:", err);
+    }
+  };
+
+  const fetchGenres = async () => {
+    try {
+      const res = await fetch("http://classwork.engr.oregonstate.edu:7689/api/genres");
+      const data = await res.json();
+      setGenres(data);
+    } catch (err) {
+      console.error("Failed to fetch genres:", err);
+    }
+  };
+
+  const fetchDirectors = async () => {
+    try {
+      const res = await fetch("http://classwork.engr.oregonstate.edu:7689/api/directors");
+      const data = await res.json();
+      setDirectors(data);
+    } catch (err) {
+      console.error("Failed to fetch directors:", err);
+    }
+  };
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const response = await fetch(
-          "http://classwork.engr.oregonstate.edu:7879/api/movies"
-        );
-        const data = await response.json();
-        setMovies(data);
-      } catch (err) {
-        console.error("Failed to fetch movies:", err);
-      }
-    };
-
     fetchMovies();
+    fetchGenres();
+    fetchDirectors();
   }, []);
+
+
+  useEffect(() => {
+    if (movies.length > 0) {
+      console.log("movies sample:", movies[0]);
+    }
+  }, [movies]);
+
+
+  /* ---------------- CREATE ---------------- */
 
   const [title, setTitle] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [genreID, setGenreID] = useState("");
   const [directorID, setDirectorID] = useState("");
 
-  const [selectedMovieID, setSelectedMovieID] = useState("");
+  const handleCreate = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(
+        "http://classwork.engr.oregonstate.edu:7689/api/movies/create",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title,
+            releaseDate,
+            genreID: Number(genreID),
+            directorID: Number(directorID),
+          }),
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to create movie");
+
+      setTitle("");
+      setReleaseDate("");
+      setGenreID("");
+      setDirectorID("");
+
+      fetchMovies();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create movie");
+    }
+  };
+
+  /* ---------------- UPDATE ---------------- */
+
+  const [movieToUpdate, setMovieToUpdate] = useState("");
   const [updateTitle, setUpdateTitle] = useState("");
   const [updateReleaseDate, setUpdateReleaseDate] = useState("");
   const [updateGenreID, setUpdateGenreID] = useState("");
   const [updateDirectorID, setUpdateDirectorID] = useState("");
   const [updateMessage, setUpdateMessage] = useState("");
 
-  const handleSelectMovie = (e) => {
-  const movieID = Number(e.target.value);
-  setSelectedMovieID(movieID);
 
-  const movie = movies.find(m => m.id === movieID);
+  const handleSelectMovie = (e) => {
+    const idStr = e.target.value; // keep as string for the UI
+    setMovieToUpdate(idStr);
+
+    if (!idStr || idStr === "undefined") {
+      setUpdateTitle("");
+      setUpdateReleaseDate("");
+      setUpdateGenreID("");
+      setUpdateDirectorID("");
+      return;
+    }
+
+    // find accepting both string/number ids
+    const id = Number(idStr);
+    const movie = movies.find((m) => Number(m.movieID) === id);
+
     if (movie) {
-      setUpdateTitle(movie.title);
-      setUpdateReleaseDate(movie.releaseDate || "");
-      setUpdateGenreID(movie.genreID || "");
-      setUpdateDirectorID(movie.directorID || "");
+      setUpdateTitle(movie.title ?? "");
+      setUpdateReleaseDate(
+        typeof movie.releaseDate === "string"
+          ? movie.releaseDate.split("T")[0]
+          : movie.releaseDate ?? "" // allow date-only string or empty
+      );
+      setUpdateGenreID(
+        movie.genreID != null ? String(movie.genreID) : ""
+      );
+      setUpdateDirectorID(
+        movie.directorID != null ? String(movie.directorID) : ""
+      );
+    } else {
+      setUpdateTitle("");
+      setUpdateReleaseDate("");
+      setUpdateGenreID("");
+      setUpdateDirectorID("");
     }
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
 
-    if (!selectedMovieID) {
+
+  const handleUpdate = async () => {
+    if (!movieToUpdate) {
       setUpdateMessage("Please select a movie.");
       return;
     }
 
-    setMovies(prev =>
-      prev.map(movie =>
-        movie.id === selectedMovieID
-          ? {
-              ...movie,
-              title: updateTitle,
-              releaseDate: updateReleaseDate,
-              genreID: Number(updateGenreID),
-              directorID: Number(updateDirectorID)
-            }
-          : movie
-      )
-    );
+    try {
+      const res = await fetch(
+        "http://classwork.engr.oregonstate.edu:7689/api/movies/update",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            movieID: Number(movieToUpdate),
+            title: updateTitle,
+            releaseDate: updateReleaseDate,
+            genreID: updateGenreID !== "" ? Number(updateGenreID) : null,
+            directorID: updateDirectorID !== "" ? Number(updateDirectorID) : null,
+          }),
+        }
+      );
 
-    setUpdateMessage("Movie updated successfully.");
+      if (!res.ok) throw new Error("Failed to update movie");
+
+      setUpdateMessage("Movie updated successfully.");
+
+      // Reset UI state safely as strings
+      setMovieToUpdate("");
+      setUpdateTitle("");
+      setUpdateReleaseDate("");
+      setUpdateGenreID("");
+      setUpdateDirectorID("");
+
+      fetchMovies(); // refresh the list
+    } catch (err) {
+      console.error(err);
+      setUpdateMessage("Failed to update movie.");
+    }
   };
 
 
-  const example_movies = [
-    { id: 1, title: "Where Is The Friend's House?", year: 1987, genre: "Drama" },
-    { id: 2, title: "Princess Mononoke", year: 1997, genre: "Fantasy" },
-    { id: 3, title: "The Grand Budapest Hotel", year: 2014, genre: "Drama" },
-  ];
+  /* ---------------- DELETE ---------------- */
+
+  // const [movieToDelete, setMovieToDelete] = useState("");
+  // const [deleteMessage, setDeleteMessage] = useState("");
+
+  // const handleDelete = async () => {
+  //   if (!movieToDelete) {
+  //     setDeleteMessage("Please select a movie.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const res = await fetch(
+  //       `http://classwork.engr.oregonstate.edu:7689/api/movies/delete/${movieToDelete}`,
+  //       {
+  //         method: "DELETE"
+  //       }
+  //     );
+
+  //     if (!res.ok) throw new Error("Failed to delete movie");
+
+  //     setMovieToDelete("");
+  //     setDeleteMessage("Movie deleted successfully.");
+
+  //     fetchMovies();
+
+  //   } catch (err) {
+  //     console.error(err);
+  //     setDeleteMessage("Failed to delete movie.");
+  //   }
+  // };
+
+  /* ---------------- VIEW ---------------- */
 
   const renderList = () =>
     movies.map((m) => (
       <tr key={m.movieID}>
         <td>{m.title}</td>
-        {/* DOB {new Date(a.dob).toLocaleDateString() */}
-        <td>{new Date (m.releaseDate).toLocaleDateString()}</td>
+        <td>{new Date(m.releaseDate).toLocaleDateString()}</td>
         <td>{m.genreName}</td>
         <td>{m.directorName}</td>
       </tr>
     ));
 
-  // Hard-coded dummy directors
-  const directors = [
-    { id: 1, name: "Christopher Nolan" },
-    { id: 2, name: "Quentin Tarantino" },
-    { id: 3, name: "Greta Gerwig" },
-    { id: 4, name: "Martin Scorsese" }
-  ];
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const movieData = {
-      title,
-      releaseDate,
-      genreID: Number(genreID),
-      directorID: Number(directorID)
-    };
-
-    console.log("Submitting movie:", movieData);
-
-    // Reset form
-    setTitle("");
-    setReleaseDate("");
-    setGenreID("");
-    setDirectorID("");
-  };
-
-  const [titleToDelete, setTitleToDelete] = useState("");
-  const [message, setMessage] = useState("");
-
-  const handleDelete = () => {
-    const trimmedTitle = titleToDelete.trim().toLowerCase();
-
-    if (!trimmedTitle) {
-      setMessage("Please enter a movie title.");
-      return;
-    }
-
-    const exists = movies.some(
-      movie => movie.title.toLowerCase() === trimmedTitle
-    );
-
-    if (!exists) {
-      setMessage("Movie not found.");
-      return;
-    }
-
-    setMovies(prev =>
-      prev.filter(movie => movie.title.toLowerCase() !== trimmedTitle)
-    );
-
-    setTitleToDelete("");
-    setMessage("Movie deleted successfully.");
-  };
-
   return (
     <div>
-    <div className="create-movie-container"s>
-      <h2>View, Create, Update, and Delete Movies</h2>
-    </div>
-
-    <div className="view-container">
-      <h2>Movies:</h2>
-      <table border="1" cellPadding="5" style={{ borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Release Date</th>
-            <th>Genre</th>
-            <th>Director</th>
-          </tr>
-        </thead>
-        <tbody>{renderList()}</tbody>
-      </table>
-    </div>
-
-    <div className="create-movie-container">
-      <form onSubmit={handleSubmit}>
-        <h2>Add a New Movie</h2>
-        <div>
-          <label>Title:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Release Date:</label>
-          <input
-            type="date"
-            value={releaseDate}
-            onChange={(e) => setReleaseDate(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Genre:</label>
-          <select
-            value={genreID}
-            onChange={(e) => setGenreID(e.target.value)}
-            required
-          >
-            <option value="">--Select Genre--</option>
-            <option value="1">Action</option>
-            <option value="2">Drama</option>
-            <option value="3">Comedy</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Director:</label>
-          <select
-            value={directorID}
-            onChange={(e) => setDirectorID(e.target.value)}
-            required
-          >
-            <option value="">--Select Director--</option>
-            {directors.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button type="submit" style={{ marginTop: "15px" }}>
-          Create Movie
-        </button>
-
-      </form>
+      {/* VIEW */}
+      <div className="view-container">
+        <h2>Movies:</h2>
+        <table border="1" cellPadding="5" style={{ borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Release Date</th>
+              <th>Genre</th>
+              <th>Director</th>
+            </tr>
+          </thead>
+          <tbody>{renderList()}</tbody>
+        </table>
       </div>
 
-      <div className="update-container">
-        <form onSubmit={handleUpdate}>
-          <h2>Update a Movie</h2>
+      {/* CREATE */}
+      <div className="create-movie-container">
+        <h2>Add New Movie</h2>
 
-          <div>
-            <label>Select Movie:</label>
-            <select value={selectedMovieID} onChange={handleSelectMovie}>
-              <option value="">--Select Movie--</option>
-              {movies.map(m => (
-                <option key={m.id} value={m.id}>
-                  {m.title}
-                </option>
-              ))}
-            </select>
-          </div>
-
+        <form onSubmit={handleCreate}>
           <div>
             <label>Title:</label>
             <input
               type="text"
-              value={updateTitle}
-              onChange={(e) => setUpdateTitle(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
@@ -254,35 +264,38 @@ const Movies = () => {
             <label>Release Date:</label>
             <input
               type="date"
-              value={updateReleaseDate}
-              onChange={(e) => setUpdateReleaseDate(e.target.value)}
+              value={releaseDate}
+              onChange={(e) => setReleaseDate(e.target.value)}
+              required
             />
           </div>
 
           <div>
             <label>Genre:</label>
             <select
-              value={updateGenreID}
-              onChange={(e) => setUpdateGenreID(e.target.value)}
+              value={genreID}
+              onChange={(e) => setGenreID(e.target.value)}
               required
             >
               <option value="">--Select Genre--</option>
-              <option value="1">Action</option>
-              <option value="2">Drama</option>
-              <option value="3">Comedy</option>
+              {genres.map((g) => (
+                <option key={g.genreID} value={g.genreID}>
+                  {g.genreName}
+                </option>
+              ))}
             </select>
           </div>
 
           <div>
             <label>Director:</label>
             <select
-              value={updateDirectorID}
-              onChange={(e) => setUpdateDirectorID(e.target.value)}
+              value={directorID}
+              onChange={(e) => setDirectorID(e.target.value)}
               required
             >
               <option value="">--Select Director--</option>
-              {directors.map(d => (
-                <option key={d.id} value={d.id}>
+              {directors.map((d) => (
+                <option key={d.directorID} value={d.directorID}>
                   {d.name}
                 </option>
               ))}
@@ -290,31 +303,88 @@ const Movies = () => {
           </div>
 
           <button type="submit" style={{ marginTop: "15px" }}>
-            Update Movie
+            Add Movie
           </button>
-
-          {updateMessage && <p>{updateMessage}</p>}
         </form>
       </div>
 
+      {/* UPDATE */}
+      <div className="create-movie-container">
+        <h2>Update Movie</h2>
 
-      <div className="delete-container">
-        <h2>Delete a Movie</h2>
+        <select value={movieToUpdate} onChange={handleSelectMovie}>
+          <option value="">--Select Movie--</option>
+          {movies.map((m) => (
+            <option key={m.movieID} value={String(m.movieID)}>
+              {m.title}
+            </option>
+          ))}
+        </select>
 
-        <label>Movie Title</label>
         <input
           type="text"
-          placeholder="Enter movie title..."
-          value={titleToDelete}
-          onChange={(e) => setTitleToDelete(e.target.value)}
+          placeholder="New Title"
+          value={updateTitle}
+          onChange={(e) => setUpdateTitle(e.target.value)}
         />
 
-        <button onClick={handleDelete}>
-          Delete Movie
+        <input
+          type="date"
+          value={updateReleaseDate}
+          onChange={(e) => setUpdateReleaseDate(e.target.value)}
+        />
+
+        <select
+          value={updateGenreID}
+          onChange={(e) => setUpdateGenreID(e.target.value)}
+        >
+          <option value="">--Select Genre--</option>
+          {genres.map((g) => (
+            <option key={g.genreID} value={String(g.genreID)}>
+              {g.genreName}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={updateDirectorID}
+          onChange={(e) => setUpdateDirectorID(e.target.value)}
+        >
+          <option value="">--Select Director--</option>
+          {directors.map((d) => (
+            <option key={d.directorID} value={String(d.directorID)}>
+              {d.name}
+            </option>
+          ))}
+        </select>
+
+        <button type="button" onClick={handleUpdate}>
+          Update Movie
         </button>
 
-        {message && <p className="delete-message">{message}</p>}
+        {updateMessage && <p>{updateMessage}</p>}
       </div>
+
+      {/* DELETE
+      <div className="create-movie-container">
+        <h2>Delete Movie</h2>
+
+        <select
+          value={movieToDelete}
+          onChange={(e) => setMovieToDelete(e.target.value)}
+        >
+          <option value="">--Select Movie--</option>
+          {movies.map((m) => (
+            <option key={m.movieID} value={m.movieID}>
+              {m.title}
+            </option>
+          ))}
+        </select>
+
+        <button onClick={handleDelete}>Delete Movie</button>
+
+        {deleteMessage && <p className="delete-message">{deleteMessage}</p>}
+      </div> */}
     </div>
   );
 };

@@ -6,7 +6,7 @@ function Navbar() {
         if (!window.confirm("Are you sure you want to reset the database?")) return;
 
         try {
-            const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/reset", {
+            const res = await fetch("http://classwork.engr.oregonstate.edu:7689/api/reset", {
             method: "POST"
             });
             if (res.ok) {
@@ -43,7 +43,7 @@ function Navbar() {
                 Genres
             </NavLink>
 
-            <NavLink to="/actors" className="nav-link">
+            <NavLink to="/actorsMovies" className="nav-link">
                 Actor Movies
             </NavLink>
 

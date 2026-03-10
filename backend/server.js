@@ -14,6 +14,11 @@ const PORT = process.env.PORT_NUMBER;
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
+app.use((req, _res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+    next();
+  });
+
 // Serve static files from React build
 app.use(express.static(path.join(__dirname, 'build')));
 
