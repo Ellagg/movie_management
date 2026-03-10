@@ -1,41 +1,62 @@
+/* ---------- NEW: Side-by-side layout container ---------- */
+.side-by-side {
+  display: flex;
+  gap: 30px;                /* space between the two panels */
+  align-items: flex-start;
+  justify-content: center;
+  margin: 40px auto;
+  max-width: 1400px;        /* keeps layout clean on large screens */
+  padding: 0 20px;
+}
+
+/* Stack vertically on smaller screens */
+@media (max-width: 900px) {
+  .side-by-side {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* ---------- EXISTING STYLES BELOW (unchanged) ---------- */
+
 /* Container styling */
 .update-container {
+    width: 100%;
     max-width: 600px;
-    margin: 50px auto;
     padding: 30px 40px;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  /* Header */
-  .update-container h2 {
+}
+
+/* Header */
+.update-container h2 {
     text-align: center;
     margin-bottom: 25px;
     color: #333;
     font-size: 26px;
     font-weight: 600;
-  }
-  
-  /* Subheader */
-  .update-container h3 {
+}
+
+/* Subheader */
+.update-container h3 {
     margin-top: 20px;
     margin-bottom: 10px;
     color: #444;
     font-size: 20px;
-  }
-  
-  /* Labels */
-  .update-container label {
+}
+
+/* Labels */
+.update-container label {
     display: block;
     margin-bottom: 6px;
     font-weight: 600;
     color: #555;
-  }
-  
-  /* Dropdown */
-  .update-container select {
+}
+
+/* Dropdown */
+.update-container select {
     width: 100%;
     padding: 10px 12px;
     margin-bottom: 20px;
@@ -43,22 +64,22 @@
     border-radius: 8px;
     font-size: 15px;
     transition: border 0.2s, box-shadow 0.2s;
-  }
-  
-  .update-container select:focus {
+}
+
+.update-container select:focus {
     border-color: #fc8070;
     box-shadow: 0 0 5px #fc8070;
     outline: none;
-  }
-  
-  /* Movie checkbox list */
-  .movie-checkbox-list {
+}
+
+/* Movie checkbox list */
+.movie-checkbox-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
-  }
-  
-  .movie-checkbox-item {
+}
+
+.movie-checkbox-item {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -68,14 +89,14 @@
     border: 1px solid #e0e0e0;
     cursor: pointer;
     transition: background-color 0.2s;
-  }
-  
-  .movie-checkbox-item:hover {
+}
+
+.movie-checkbox-item:hover {
     background-color: #eef4ff;
-  }
-  
-  /* Save button */
-  .update-btn {
+}
+
+/* Save button */
+.update-btn {
     width: 100%;
     padding: 12px;
     margin-top: 25px;
@@ -87,22 +108,21 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
-  }
-  
-  .update-btn:hover {
+}
+
+.update-btn:hover {
     background-color: #fc8070;
     transform: translateY(-2px);
-  }
-  
-  /* Responsive tweaks */
-  @media (max-width: 500px) {
+}
+
+/* Responsive tweaks */
+@media (max-width: 500px) {
     .update-container {
       padding: 20px 15px;
     }
-  
+
     .update-btn {
       font-size: 14px;
       padding: 10px;
     }
-  }
-  
+}
