@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./css/Create.css";
-import "./css/View.css";
-import "./css/Delete.css";
+import "./css/Standard.css";
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -228,11 +226,11 @@ const Movies = () => {
     ));
 
   return (
-    <div>
+    <div className="page-container">
       {/* VIEW */}
       <div className="view-container">
         <h2>Movies:</h2>
-        <table border="1" cellPadding="5" style={{ borderCollapse: "collapse" }}>
+        <table className="movies-table">
           <thead>
             <tr>
               <th>Title</th>
@@ -248,143 +246,63 @@ const Movies = () => {
       {/* CREATE */}
       <div className="create-movie-container">
         <h2>Add New Movie</h2>
-
         <form onSubmit={handleCreate}>
           <div>
             <label>Title:</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)} required />
           </div>
-
           <div>
             <label>Release Date:</label>
-            <input
-              type="date"
-              value={releaseDate}
-              onChange={(e) => setReleaseDate(e.target.value)}
-              required
-            />
+            <input type="date" value={releaseDate} onChange={e => setReleaseDate(e.target.value)} required />
           </div>
-
           <div>
             <label>Genre:</label>
-            <select
-              value={genreID}
-              onChange={(e) => setGenreID(e.target.value)}
-              required
-            >
+            <select value={genreID} onChange={e => setGenreID(e.target.value)} required>
               <option value="">--Select Genre--</option>
-              {genres.map((g) => (
-                <option key={g.genreID} value={g.genreID}>
-                  {g.genreName}
-                </option>
+              {genres.map(g => (
+                <option key={g.genreID} value={g.genreID}>{g.genreName}</option>
               ))}
             </select>
           </div>
-
           <div>
             <label>Director:</label>
-            <select
-              value={directorID}
-              onChange={(e) => setDirectorID(e.target.value)}
-              required
-            >
+            <select value={directorID} onChange={e => setDirectorID(e.target.value)} required>
               <option value="">--Select Director--</option>
-              {directors.map((d) => (
-                <option key={d.directorID} value={d.directorID}>
-                  {d.name}
-                </option>
+              {directors.map(d => (
+                <option key={d.directorID} value={d.directorID}>{d.name}</option>
               ))}
             </select>
           </div>
-
-          <button type="submit" style={{ marginTop: "15px" }}>
-            Add Movie
-          </button>
+          <button type="submit">Add Movie</button>
         </form>
       </div>
 
       {/* UPDATE */}
       <div className="create-movie-container">
         <h2>Update Movie</h2>
-
         <select value={movieToUpdate} onChange={handleSelectMovie}>
           <option value="">--Select Movie--</option>
-          {movies.map((m) => (
-            <option key={m.movieID} value={String(m.movieID)}>
-              {m.title}
-            </option>
+          {movies.map(m => (
+            <option key={m.movieID} value={String(m.movieID)}>{m.title}</option>
           ))}
         </select>
-
-        <input
-          type="text"
-          placeholder="New Title"
-          value={updateTitle}
-          onChange={(e) => setUpdateTitle(e.target.value)}
-        />
-
-        <input
-          type="date"
-          value={updateReleaseDate}
-          onChange={(e) => setUpdateReleaseDate(e.target.value)}
-        />
-
-        <select
-          value={updateGenreID}
-          onChange={(e) => setUpdateGenreID(e.target.value)}
-        >
+        <input type="text" placeholder="New Title" value={updateTitle} onChange={e => setUpdateTitle(e.target.value)} />
+        <input type="date" value={updateReleaseDate} onChange={e => setUpdateReleaseDate(e.target.value)} />
+        <select value={updateGenreID} onChange={e => setUpdateGenreID(e.target.value)}>
           <option value="">--Select Genre--</option>
-          {genres.map((g) => (
-            <option key={g.genreID} value={String(g.genreID)}>
-              {g.genreName}
-            </option>
+          {genres.map(g => (
+            <option key={g.genreID} value={String(g.genreID)}>{g.genreName}</option>
           ))}
         </select>
-
-        <select
-          value={updateDirectorID}
-          onChange={(e) => setUpdateDirectorID(e.target.value)}
-        >
+        <select value={updateDirectorID} onChange={e => setUpdateDirectorID(e.target.value)}>
           <option value="">--Select Director--</option>
-          {directors.map((d) => (
-            <option key={d.directorID} value={String(d.directorID)}>
-              {d.name}
-            </option>
+          {directors.map(d => (
+            <option key={d.directorID} value={String(d.directorID)}>{d.name}</option>
           ))}
         </select>
-
-        <button type="button" onClick={handleUpdate}>
-          Update Movie
-        </button>
-
+        <button type="button" onClick={handleUpdate}>Update Movie</button>
         {updateMessage && <p>{updateMessage}</p>}
       </div>
-
-      {/* DELETE
-      <div className="create-movie-container">
-        <h2>Delete Movie</h2>
-
-        <select
-          value={movieToDelete}
-          onChange={(e) => setMovieToDelete(e.target.value)}
-        >
-          <option value="">--Select Movie--</option>
-          {movies.map((m) => (
-            <option key={m.movieID} value={m.movieID}>
-              {m.title}
-            </option>
-          ))}
-        </select>
-
-        <button onClick={handleDelete}>Delete Movie</button>
-
-        {deleteMessage && <p className="delete-message">{deleteMessage}</p>}
-      </div> */}
     </div>
   );
 };

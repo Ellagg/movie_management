@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "./css/UpdateActors.css";
+import "./css/Standard.css";
+import "./css/ActorsMovies.css";
 
 const API_BASE = "http://classwork.engr.oregonstate.edu:7879/api";
 
@@ -210,8 +211,8 @@ export default function ActorsMovies() {
   }
   
   return (
-    <div className="side-by-side">
-      {/* Left panel: Movies + Actors overview */}
+    <div className="actors-movies-container">
+      {/* Movies + Actors Overview */}
       <div className="update-container">
         <h2>Movies and Actors</h2>
         {err && <p style={{ color: "crimson" }}>{err}</p>}
@@ -236,39 +237,28 @@ export default function ActorsMovies() {
           </table>
         )}
       </div>
-  
-      {/* Right panel: Update form */}
+
+      {/* Update Actor Movies */}
       <div className="update-container">
         <h2>Update the movies an actor has been in</h2>
-  
-        {/* Actor Dropdown */}
+
         <label htmlFor="actorSel">Select Actor:</label>
-        <select
-          id="actorSel"
-          value={selectedActor ?? ""}
-          onChange={(e) => setSelectedActor(Number(e.target.value))}
-        >
+        <select id="actorSel" value={selectedActor ?? ""} onChange={(e) => setSelectedActor(Number(e.target.value))}>
           {actors.map((actor) => (
-            <option key={actor.id} value={actor.id}>
-              {actor.name}
-            </option>
+            <option key={actor.id} value={actor.id}>{actor.name}</option>
           ))}
         </select>
-  
+
         <h3>Movies</h3>
         <div className="movie-checkbox-list">
           {movies.map((movie) => (
             <label key={String(movie.id)} className="movie-checkbox-item">
-              <input
-                type="checkbox"
-                checked={selectedMovieIds.includes(movie.id)}
-                onChange={() => toggleMovie(movie.id)}
-              />
+              <input type="checkbox" checked={selectedMovieIds.includes(movie.id)} onChange={() => toggleMovie(movie.id)} />
               {movie.title}
             </label>
           ))}
         </div>
-  
+
         <button className="update-btn" onClick={handleSave} disabled={saving}>
           {saving ? "Saving…" : "Save Changes"}
         </button>

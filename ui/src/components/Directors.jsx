@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./css/Create.css";
-import "./css/View.css";
+import "./css/Standard.css";
 
 const CreateDirector = () => {
   // read
@@ -147,7 +146,7 @@ const CreateDirector = () => {
   };
 
   return (
-    <div>
+    <div className="page-container">
       {/* VIEW */}
       <div className="view-container">
         <h2>Directors:</h2>
@@ -179,16 +178,19 @@ const CreateDirector = () => {
         <form onSubmit={handleSubmit}>
           <div>
             <label>Name:</label>
-            <input value={name} onChange={e => setName(e.target.value)} required />
+            <input value={name} onChange={(e) => setName(e.target.value)} required />
           </div>
+
           <div>
             <label>Age:</label>
-            <input type="number" value={age} onChange={e => setAge(e.target.value)} required />
+            <input type="number" value={age} onChange={(e) => setAge(e.target.value)} required />
           </div>
+
           <div>
             <label>Date of Birth:</label>
-            <input type="date" value={dob} onChange={e => setDob(e.target.value)} required />
+            <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} required />
           </div>
+
           <button type="submit">Create Director</button>
         </form>
       </div>
@@ -201,23 +203,27 @@ const CreateDirector = () => {
             <label>Select Director:</label>
             <select value={selectedDirectorID} onChange={handleSelectDirector} required>
               <option value="">--Select Director--</option>
-              {directors.map(d => (
+              {directors.map((d) => (
                 <option key={d.directorID} value={d.directorID}>{d.name}</option>
               ))}
             </select>
           </div>
+
           <div>
             <label>Name:</label>
-            <input value={updateName} onChange={e => setUpdateName(e.target.value)} required />
+            <input value={updateName} onChange={(e) => setUpdateName(e.target.value)} required />
           </div>
+
           <div>
             <label>Age:</label>
-            <input type="number" value={updateAge} onChange={e => setUpdateAge(e.target.value)} required />
+            <input type="number" value={updateAge} onChange={(e) => setUpdateAge(e.target.value)} required />
           </div>
+
           <div>
             <label>Date of Birth:</label>
-            <input type="date" value={updateDob} onChange={e => setUpdateDob(e.target.value)} required />
+            <input type="date" value={updateDob} onChange={(e) => setUpdateDob(e.target.value)} required />
           </div>
+
           <button type="submit">Update Director</button>
           {updateMessage && <p>{updateMessage}</p>}
         </form>
@@ -226,9 +232,9 @@ const CreateDirector = () => {
       {/* DELETE */}
       <div className="delete-container">
         <h2>Delete Director</h2>
-        <select value={directorToDelete} onChange={e => setDirectorToDelete(e.target.value)}>
+        <select value={directorToDelete} onChange={(e) => setDirectorToDelete(e.target.value)}>
           <option value="">--Select Director--</option>
-          {directors.map(d => (
+          {directors.map((d) => (
             <option key={d.directorID} value={d.directorID}>{d.name}</option>
           ))}
         </select>

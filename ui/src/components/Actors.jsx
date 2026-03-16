@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./css/Create.css";
-import "./css/View.css";
+import "./css/Standard.css";
 
 const CreateActor = () => {
   // ---- config ----
@@ -160,7 +159,7 @@ const CreateActor = () => {
   };
 
   return (
-    <div>
+    <div className="page-container">
       {/* VIEW */}
       <div className="view-container">
         <h2>Actors:</h2>
@@ -174,7 +173,7 @@ const CreateActor = () => {
             </tr>
           </thead>
           <tbody>
-            {actors.map((a) => (
+            {actors.map(a => (
               <tr key={a.actorID}>
                 <td>{a.actorID}</td>
                 <td>{a.name}</td>
@@ -192,33 +191,16 @@ const CreateActor = () => {
         <form onSubmit={handleSubmit}>
           <div>
             <label>Name:</label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            <input value={name} onChange={e => setName(e.target.value)} required />
           </div>
-
           <div>
             <label>Age:</label>
-            <input
-              type="number"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              required
-            />
+            <input type="number" value={age} onChange={e => setAge(e.target.value)} required />
           </div>
-
           <div>
             <label>Date of Birth:</label>
-            <input
-              type="date"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              required
-            />
+            <input type="date" value={dob} onChange={e => setDob(e.target.value)} required />
           </div>
-
           <button type="submit">Create Actor</button>
         </form>
       </div>
@@ -229,49 +211,25 @@ const CreateActor = () => {
         <form onSubmit={handleUpdate}>
           <div>
             <label>Select Actor:</label>
-            <select
-              value={selectedActorID}
-              onChange={handleSelectActor}
-              required
-            >
+            <select value={selectedActorID} onChange={handleSelectActor} required>
               <option value="">--Select Actor--</option>
-              {actors.map((a) => (
-                <option key={a.actorID} value={a.actorID}>
-                  {a.name}
-                </option>
+              {actors.map(a => (
+                <option key={a.actorID} value={a.actorID}>{a.name}</option>
               ))}
             </select>
           </div>
-
           <div>
             <label>Name:</label>
-            <input
-              value={updateName}
-              onChange={(e) => setUpdateName(e.target.value)}
-              required
-            />
+            <input value={updateName} onChange={e => setUpdateName(e.target.value)} required />
           </div>
-
           <div>
             <label>Age:</label>
-            <input
-              type="number"
-              value={updateAge}
-              onChange={(e) => setUpdateAge(e.target.value)}
-              required
-            />
+            <input type="number" value={updateAge} onChange={e => setUpdateAge(e.target.value)} required />
           </div>
-
           <div>
             <label>Date of Birth:</label>
-            <input
-              type="date"
-              value={updateDob}
-              onChange={(e) => setUpdateDob(e.target.value)}
-              required
-            />
+            <input type="date" value={updateDob} onChange={e => setUpdateDob(e.target.value)} required />
           </div>
-
           <button type="submit">Update Actor</button>
           {updateMessage && <p>{updateMessage}</p>}
         </form>
@@ -280,23 +238,14 @@ const CreateActor = () => {
       {/* DELETE */}
       <div className="delete-container">
         <h2>Delete Actor</h2>
-        <select
-          value={actorToDelete}
-          onChange={(e) => setActorToDelete(e.target.value)}
-        >
+        <select value={actorToDelete} onChange={e => setActorToDelete(e.target.value)}>
           <option value="">--Select Actor--</option>
-          {actors.map((a) => (
-            <option key={a.actorID} value={a.actorID}>
-              {a.name}
-            </option>
+          {actors.map(a => (
+            <option key={a.actorID} value={a.actorID}>{a.name}</option>
           ))}
         </select>
-
-        <button type="button" onClick={handleDelete}>
-          Delete Actor
-        </button>
-
-        {deleteMessage && <p>{deleteMessage}</p>}
+        <button type="button" onClick={handleDelete}>Delete Actor</button>
+        {deleteMessage && <p className="delete-message">{deleteMessage}</p>}
       </div>
     </div>
   );

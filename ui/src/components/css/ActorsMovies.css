@@ -1,0 +1,64 @@
+/* ACTORS-MOVIES PAGE */
+.actors-movies-container {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: center;    /* center horizontally */
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.update-container {
+  width: 100%;
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.overview-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.overview-table th,
+.overview-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.movie-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.movie-checkbox-item {
+  margin-bottom: 6px;
+}
+
+label {
+  font-weight: 500;
+}
+
+button.update-btn {
+  padding: 8px 16px;
+  margin-top: 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #fc8070;
+  color: white;
+  font-weight: bold;
+}
+
+button.update-btn:hover {
+  background-color: #d1685a;
+}
