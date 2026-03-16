@@ -4,7 +4,7 @@ import "./css/View.css";
 
 const CreateActor = () => {
   // ---- config ----
-  const baseUrl = "http://classwork.engr.oregonstate.edu:7689/api";
+  const baseUrl = "http://classwork.engr.oregonstate.edu:7879/api";
 
   // ---- read ----
   const [actors, setActors] = useState([]);
@@ -164,7 +164,26 @@ const CreateActor = () => {
       {/* VIEW */}
       <div className="view-container">
         <h2>Actors:</h2>
-        <ul className="view-list">{renderList()}</ul>
+        <table className="actors-table">
+          <thead>
+            <tr>
+              <th>Actor ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Date of Birth</th>
+            </tr>
+          </thead>
+          <tbody>
+            {actors.map((a) => (
+              <tr key={a.actorID}>
+                <td>{a.actorID}</td>
+                <td>{a.name}</td>
+                <td>{a.age ?? "N/A"}</td>
+                <td>{formatDate(a.dob)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* CREATE */}

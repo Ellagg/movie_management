@@ -151,7 +151,26 @@ const CreateDirector = () => {
       {/* VIEW */}
       <div className="view-container">
         <h2>Directors:</h2>
-        <ul className="view-list">{renderList()}</ul>
+        <table className="directors-table">
+          <thead>
+            <tr>
+              <th>Director ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Date of Birth</th>
+            </tr>
+          </thead>
+          <tbody>
+            {directors.map((d) => (
+              <tr key={d.directorID}>
+                <td>{d.directorID}</td>
+                <td>{d.name}</td>
+                <td>{d.age ?? "N/A"}</td>
+                <td>{formatDate(d.dob)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* CREATE */}

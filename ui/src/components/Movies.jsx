@@ -12,7 +12,7 @@ const Movies = () => {
 
   const fetchMovies = async () => {
     try {
-      const res = await fetch("http://classwork.engr.oregonstate.edu:7689/api/movies");
+      const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/movies");
       const data = await res.json();
       setMovies(data);
     } catch (err) {
@@ -22,7 +22,7 @@ const Movies = () => {
 
   const fetchGenres = async () => {
     try {
-      const res = await fetch("http://classwork.engr.oregonstate.edu:7689/api/genres");
+      const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/genres");
       const data = await res.json();
       setGenres(data);
     } catch (err) {
@@ -32,7 +32,7 @@ const Movies = () => {
 
   const fetchDirectors = async () => {
     try {
-      const res = await fetch("http://classwork.engr.oregonstate.edu:7689/api/directors");
+      const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/directors");
       const data = await res.json();
       setDirectors(data);
     } catch (err) {
@@ -66,7 +66,7 @@ const Movies = () => {
 
     try {
       const res = await fetch(
-        "http://classwork.engr.oregonstate.edu:7689/api/movies/create",
+        "http://classwork.engr.oregonstate.edu:7879/api/movies/create",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -150,7 +150,7 @@ const Movies = () => {
 
     try {
       const res = await fetch(
-        "http://classwork.engr.oregonstate.edu:7689/api/movies/update",
+        "http://classwork.engr.oregonstate.edu:7879/api/movies/update",
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -196,7 +196,7 @@ const Movies = () => {
 
   //   try {
   //     const res = await fetch(
-  //       `http://classwork.engr.oregonstate.edu:7689/api/movies/delete/${movieToDelete}`,
+  //       `http://classwork.engr.oregonstate.edu:7879/api/movies/delete/${movieToDelete}`,
   //       {
   //         method: "DELETE"
   //       }

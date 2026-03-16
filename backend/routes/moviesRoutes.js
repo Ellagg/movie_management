@@ -9,20 +9,7 @@ const db = require("../db-connector");
  */
 router.get("/", async (req, res) => {
   try {
-    const querySelect = `
-      SELECT 
-        m.movieID            AS movieID,
-        m.title              AS title,
-        m.releaseDate        AS releaseDate,
-        g.genreID            AS genreID,
-        g.genreName          AS genreName,
-        d.directorID         AS directorID,
-        d.name               AS directorName
-      FROM Movies m
-      JOIN Genres g     ON m.genreID = g.genreID
-      JOIN Directors d  ON m.directorID = d.directorID
-      ORDER BY m.movieID;
-    `;
+    const querySelect = 'CALL list_movies()';
     const [rows] = await db.query(querySelect);
     res.status(200).json(rows);
   } catch (err) {

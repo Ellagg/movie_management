@@ -47,9 +47,9 @@ function Navbar() {
                 Actor Movies
             </NavLink>
 
-            <NavLink to="/search" className="nav-link">
+            {/* <NavLink to="/search" className="nav-link">
                 Search
-            </NavLink>
+            </NavLink> */}
 
             <button
                 onClick={handleReset}

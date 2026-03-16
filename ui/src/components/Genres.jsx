@@ -140,7 +140,24 @@ const CreateGenre = () => {
       {/* VIEW */}
       <div className="view-container">
         <h2>Genres:</h2>
-        <ul className="view-list">{renderList()}</ul>
+        <table className="genres-table">
+          <thead>
+            <tr>
+              <th>Genre ID</th>
+              <th>Genre Name</th>
+              <th>Total Movies</th>
+            </tr>
+          </thead>
+          <tbody>
+            {genres.map((g) => (
+              <tr key={g.genreID}>
+                <td>{g.genreID}</td>
+                <td>{g.genreName}</td>
+                <td>{g.totalMovies ?? 0}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* CREATE */}

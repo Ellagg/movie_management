@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./css/UpdateActors.css";
 
-const API_BASE = "http://classwork.engr.oregonstate.edu:7689/api";
+const API_BASE = "http://classwork.engr.oregonstate.edu:7879/api";
 
 export default function ActorsMovies() {
   // Data sources
@@ -218,15 +218,22 @@ export default function ActorsMovies() {
         {overview.length === 0 ? (
           <p>No movies found.</p>
         ) : (
-          <ul>
-            {overview.map((m) => (
-              <li key={String(m.movieID)}>
-                <strong>{m.movieTitle}</strong>
-                <br />
-                Actors: {m.actors || "—"}
-              </li>
-            ))}
-          </ul>
+          <table className="overview-table">
+            <thead>
+              <tr>
+                <th>Movie</th>
+                <th>Actors</th>
+              </tr>
+            </thead>
+            <tbody>
+              {overview.map((m) => (
+                <tr key={String(m.movieID)}>
+                  <td>{m.movieTitle}</td>
+                  <td>{m.actors || "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
   

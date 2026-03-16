@@ -16,19 +16,9 @@ function toInt(value) {
  */
 router.get("/", async (req, res) => {
   try {
-    const querySelect = `
-      SELECT 
-        m.movieID,
-        m.title AS movieTitle,
-        GROUP_CONCAT(a.name ORDER BY a.name SEPARATOR ', ') AS actors
-      FROM Movies m
-      LEFT JOIN ActorsInMovies aim ON m.movieID = aim.movieID
-      LEFT JOIN Actors a ON aim.actorID = a.actorID
-      GROUP BY m.movieID, m.title
-      ORDER BY m.movieID;
-    `;
+    const querySelect = 'CALL list_actors_in_movies()';
     const [rows] = await db.query(querySelect);
-    return res.status(200).json(rows);
+    return res.status(200).json(rows[0]);
   } catch (err) {
     console.error("Failed to get actors in movies: ", err);
     return res

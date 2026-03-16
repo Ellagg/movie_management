@@ -22,13 +22,9 @@ const isIsoDate = (s) => {
  */
 router.get("/", async (_req, res) => {
   try {
-    const sql = `
-      SELECT actorID, name, age, dob
-      FROM Actors
-      ORDER BY actorID;
-    `;
+    const sql = 'CALL list_actors()';
     const [rows] = await db.query(sql);
-    return res.status(200).json(rows);
+    return res.status(200).json(rows[0]);
   } catch (err) {
     console.error("Failed to get actors:", err);
     return res.status(500).json({ error: "Failed to fetch actors" });
