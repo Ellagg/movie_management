@@ -40,11 +40,13 @@ const CreateGenre = () => {
 
       if (!res.ok) throw new Error("Failed to create genre");
 
-      const createdGenre = await res.json();
+      // const createdGenre = await res.json();
 
       // Add the new genre to state so it updates the list
-      setGenres(prev => [...prev, createdGenre]);
+      // setGenres(prev => [...prev, createdGenre]);
+      // setNewGenre(""); // clear input
       setNewGenre(""); // clear input
+      fetchGenres();
     } catch (err) {
       console.error(err);
       alert("Failed to create genre");

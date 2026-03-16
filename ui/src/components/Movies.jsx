@@ -12,7 +12,7 @@ const Movies = () => {
     try {
       const res = await fetch("http://classwork.engr.oregonstate.edu:7879/api/movies");
       const data = await res.json();
-      setMovies(data);
+      setMovies(data[0]);
     } catch (err) {
       console.error("Failed to fetch movies:", err);
     }
@@ -220,8 +220,8 @@ const Movies = () => {
       <tr key={m.movieID}>
         <td>{m.title}</td>
         <td>{new Date(m.releaseDate).toLocaleDateString()}</td>
-        <td>{m.genreName}</td>
-        <td>{m.directorName}</td>
+        <td>{m.genreName ?? "N/A"}</td>
+        <td>{m.directorName ?? "N/A"}</td>
       </tr>
     ));
 

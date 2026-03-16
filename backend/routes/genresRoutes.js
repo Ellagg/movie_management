@@ -20,12 +20,12 @@ router.post("/create", async (req, res) => {
       return res.status(400).json({ error: "genreName is required" });
     }
 
-    const queryInsert = "CALL add_genre()";
+    const queryInsert = "CALL add_genre(?)";
 
     const [result] = await db.query(queryInsert, [genreName]);
 
     // Return the newly created genre and generated ID
-    res.status(201).json({ genreID: result.insertId, genreName });
+    res.status(201).json({ message: "Genre created successfully" });
 
   } catch (err) {
     console.error("Failed to create genre:", err);
