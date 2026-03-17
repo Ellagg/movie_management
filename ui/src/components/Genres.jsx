@@ -113,7 +113,7 @@ const CreateGenre = () => {
     }
   };
 
-  /* ---------------- VIEW ---------------- */
+  /* VIEW */
   const renderList = () =>
     genres.map(g => (
       <li key={g.genreID}>

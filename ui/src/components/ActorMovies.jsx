@@ -21,7 +21,7 @@ export default function ActorsMovies() {
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState("");
 
-  // -------- Fetch & normalize --------
+  // Fetch & normalize
   useEffect(() => {
     (async () => {
       try {
@@ -216,7 +216,7 @@ export default function ActorsMovies() {
     }
   };
 
-  // -------- Render --------
+  // Render
   if (loading) {
     return (
       <div className="update-container">
