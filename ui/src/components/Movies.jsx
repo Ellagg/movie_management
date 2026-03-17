@@ -6,7 +6,7 @@ const Movies = () => {
   const [genres, setGenres] = useState([]);
   const [directors, setDirectors] = useState([]);
 
-  /* ---------------- FETCH DATA ---------------- */
+  /* FETCH DATA */
 
   const fetchMovies = async () => {
     try {
@@ -52,7 +52,7 @@ const Movies = () => {
   }, [movies]);
 
 
-  /* ---------------- CREATE ---------------- */
+  /* CREATE */
 
   const [title, setTitle] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
@@ -91,7 +91,7 @@ const Movies = () => {
     }
   };
 
-  /* ---------------- UPDATE ---------------- */
+  /* UPDATE */
 
   const [movieToUpdate, setMovieToUpdate] = useState("");
   const [updateTitle, setUpdateTitle] = useState("");
@@ -181,39 +181,45 @@ const Movies = () => {
   };
 
 
-  /* ---------------- DELETE ---------------- */
+  /* DELETE */
 
-  // const [movieToDelete, setMovieToDelete] = useState("");
-  // const [deleteMessage, setDeleteMessage] = useState("");
+  const [movieToDelete, setMovieToDelete] = useState("");
+  const [deleteMessage, setDeleteMessage] = useState("");
 
-  // const handleDelete = async () => {
-  //   if (!movieToDelete) {
-  //     setDeleteMessage("Please select a movie.");
-  //     return;
-  //   }
+  const handleDelete = async () => {
+    if (!movieToDelete) {
+      setDeleteMessage("Please select a movie.");
+      return;
+    }
 
-  //   try {
-  //     const res = await fetch(
-  //       `http://classwork.engr.oregonstate.edu:7879/api/movies/delete/${movieToDelete}`,
-  //       {
-  //         method: "DELETE"
-  //       }
-  //     );
+    const confirmDelete = window.confirm("Are you sure you want to delete this movie?");
+    if (!confirmDelete) return;
 
-  //     if (!res.ok) throw new Error("Failed to delete movie");
+    try {
+      const res = await fetch(
+        "http://classwork.engr.oregonstate.edu:7879/api/movies/delete",
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            movieID: Number(movieToDelete),
+          }),
+        }
+      );
 
-  //     setMovieToDelete("");
-  //     setDeleteMessage("Movie deleted successfully.");
+      if (!res.ok) throw new Error("Failed to delete movie");
 
-  //     fetchMovies();
+      setMovieToDelete("");
+      setDeleteMessage("Movie deleted successfully.");
 
-  //   } catch (err) {
-  //     console.error(err);
-  //     setDeleteMessage("Failed to delete movie.");
-  //   }
-  // };
+      fetchMovies();
+    } catch (err) {
+      console.error(err);
+      setDeleteMessage("Failed to delete movie.");
+    }
+  };
 
-  /* ---------------- VIEW ---------------- */
+  /* VIEW */
 
   const renderList = () =>
     movies.map((m) => (
@@ -302,6 +308,29 @@ const Movies = () => {
         </select>
         <button type="button" onClick={handleUpdate}>Update Movie</button>
         {updateMessage && <p>{updateMessage}</p>}
+      </div>
+
+      {/* DELETE */}
+      <div className="create-movie-container">
+        <h2>Delete Movie</h2>
+
+        <select
+          value={movieToDelete}
+          onChange={(e) => setMovieToDelete(e.target.value)}
+        >
+          <option value="">--Select Movie--</option>
+          {movies.map((m) => (
+            <option key={m.movieID} value={m.movieID}>
+              {m.title}
+            </option>
+          ))}
+        </select>
+
+        <button type="button" onClick={handleDelete}>
+          Delete Movie
+        </button>
+
+        {deleteMessage && <p>{deleteMessage}</p>}
       </div>
     </div>
   );

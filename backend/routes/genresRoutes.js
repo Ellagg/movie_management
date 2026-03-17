@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const db = require("../db-connector")
 
+// READ
 router.get('/', async (req, res) => {
     try{
       const querySelect = "CALL list_genres()"
@@ -12,6 +13,7 @@ router.get('/', async (req, res) => {
       res.status(500).json({ error: "Failed to fetch genres" });
     }
 });
+// INSERT
 router.post("/create", async (req, res) => {
   try {
     const { genreName } = req.body; // expects { "genreName": "Comedy" }
@@ -32,6 +34,7 @@ router.post("/create", async (req, res) => {
     res.status(500).json({ error: "Failed to create genre" });
   }
 });
+// DELETE
 router.delete('/delete/:id', async (req, res) => {
   try{
     const genreID = req.params.id;
@@ -51,6 +54,7 @@ router.delete('/delete/:id', async (req, res) => {
     res.status(500).json({ error: "Failed to delete genre" });
   }
 });
+// UPDATE
 router.put('/update', async (req, res) => {
   try{
     const { genreID, genreName } = req.body;

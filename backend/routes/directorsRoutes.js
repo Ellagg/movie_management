@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const db = require("../db-connector")
 
+// READ
 router.get('/', async (req, res) => {
     try{
       const querySelect = 'CALL list_directors'
@@ -15,6 +16,7 @@ router.get('/', async (req, res) => {
       res.status(500).json({ error: "Failed to fetch directors" });
     }
 });
+// INSERT
 router.post('/create', async (req, res) => {
     try{
         const { name, age, dob } = req.body;
@@ -33,6 +35,7 @@ router.post('/create', async (req, res) => {
         res.status(500).json({ error: "Failed to create director" });
     }
 });
+// DELETE
 router.delete('/delete/:id', async (req, res) => {
     try{
         const directorID = req.params.id;
@@ -54,6 +57,7 @@ router.delete('/delete/:id', async (req, res) => {
         res.status(500).json({ error: "Failed to delete director" });
     }
 });
+// UPDATE
 router.put('/update', async (req, res) => {
     try{
         const { directorID, name, age, dob } = req.body;

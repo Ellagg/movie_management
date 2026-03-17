@@ -2,29 +2,29 @@ import React, { useState, useEffect } from "react";
 import "./css/Standard.css";
 
 const CreateActor = () => {
-  // ---- config ----
+  // config
   const baseUrl = "http://classwork.engr.oregonstate.edu:7879/api";
 
-  // ---- read ----
+  // read
   const [actors, setActors] = useState([]);
 
-  // ---- create ----
+  // create
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [dob, setDob] = useState("");
 
-  // ---- update ----
+  // update
   const [selectedActorID, setSelectedActorID] = useState("");
   const [updateName, setUpdateName] = useState("");
   const [updateAge, setUpdateAge] = useState("");
   const [updateDob, setUpdateDob] = useState("");
   const [updateMessage, setUpdateMessage] = useState("");
 
-  // ---- delete ----
+  // delete
   const [actorToDelete, setActorToDelete] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
 
-  // ---- read (fetch) ----
+  // read (fetch)
   const fetchActors = async () => {
     try {
       const res = await fetch(`${baseUrl}/actors`);
@@ -52,7 +52,7 @@ const CreateActor = () => {
       </li>
     ));
 
-  // ---- create ----
+  // create
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -75,7 +75,7 @@ const CreateActor = () => {
     }
   };
 
-  // ---- update ----
+  // update
   const handleSelectActor = (e) => {
     const id = Number(e.target.value);
     setSelectedActorID(id);
@@ -129,7 +129,7 @@ const CreateActor = () => {
     }
   };
 
-  // ---- delete ----
+  // delete
   const handleDelete = async () => {
     if (!actorToDelete) {
       setDeleteMessage("Please select an actor.");
