@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db-connector");
 
+console.log("ActorsMovies routes loaded");
+
 /**
  * Utility: coerce to integer or return null
  */
@@ -9,6 +11,12 @@ function toInt(value) {
   const n = Number(value);
   return Number.isInteger(n) ? n : null;
 }
+
+console.log("✅ actorsMoviesRoutes.js loaded");
+
+router.get("/test", (req, res) => {
+  res.json({ ok: true });
+});
 
 /**
  * GET /api/actorsMovies
@@ -24,6 +32,33 @@ router.get("/", async (req, res) => {
     return res
       .status(500)
       .json({ error: "Failed to fetch actors in movies" });
+  }
+});
+
+/**
+ * GET /api/actorsMovies/for-actor/:actorID
+ * Returns [{ movieID }]
+ */
+router.get("/for-actor/:actorID", async (req, res) => {
+  try {
+    const actorID = Number(req.params.actorID);
+    if (!Number.isInteger(actorID)) {
+      return res.status(400).json({ error: "Invalid actorID" });
+    }
+
+    console.log("actorID: ", actorID);
+
+    const sql = `
+      SELECT movieID
+      FROM ActorsMovies
+      WHERE actorID = ?
+    `;
+
+    const [rows] = await db.query(sql, [actorID]);
+    return res.status(200).json(rows);
+  } catch (err) {
+    console.error("Failed to fetch actor movies:", err);
+    return res.status(500).json({ error: "Failed to fetch actor movies" });
   }
 });
 

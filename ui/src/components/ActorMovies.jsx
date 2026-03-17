@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./css/Standard.css";
 import "./css/ActorsMovies.css";
 
-const API_BASE = "http://classwork.engr.oregonstate.edu:7879/api";
+const API_BASE = "http://classwork.engr.oregonstate.edu:7689/api";
 
 export default function ActorsMovies() {
   // Data sources
@@ -89,9 +89,12 @@ export default function ActorsMovies() {
     return a?.name || "";
   }, [actors, selectedActor]);
 
-  // Derive the actor's currently-linked movie IDs from the overview list.
-  // (Uses actor Name matching because we don’t yet have a GET /for-actor/:actorID endpoint.)
+  // // Derive the actor's currently-linked movie IDs from the overview list.
+  // // (Uses actor Name matching because we don’t yet have a GET /for-actor/:actorID endpoint.)
   useEffect(() => {
+    console.log("Overview sample:", overview.slice(0, 3));
+    console.log("Selected actor name:", selectedActorName);
+
     if (!selectedActor || !selectedActorName) {
       setSelectedMovieIds([]);
       setOriginalMovieIds([]);
@@ -103,9 +106,21 @@ export default function ActorsMovies() {
       .filter(row => {
         if (!row.actors) return false;
         const tokens = row.actors.split(",").map(s => s.trim());
-        return tokens.some(t => t === selectedActorName);
+        //return tokens.some(t => t === selectedActorName);
+        return tokens.some(t =>
+          t.toLowerCase().includes(selectedActorName.toLowerCase()) ||
+          selectedActorName.toLowerCase().includes(t.toLowerCase())
+        );
       })
       .map(row => Number(row.movieID));
+
+      console.log(
+        "MATCH DEBUG →",
+        "Actor:", selectedActorName,
+        "IDs:",
+        ids
+      );
+      
 
     setSelectedMovieIds(ids);
     setOriginalMovieIds(ids); // snapshot for diff
@@ -254,7 +269,7 @@ export default function ActorsMovies() {
           {movies.map((movie) => (
             <label key={String(movie.id)} className="movie-checkbox-item">
               <input type="checkbox" checked={selectedMovieIds.includes(movie.id)} onChange={() => toggleMovie(movie.id)} />
-              {movie.title}
+              <span>{movie.title}</span>
             </label>
           ))}
         </div>
