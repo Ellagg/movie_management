@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./css/Standard.css";
 import "./css/ActorsMovies.css";
 
-const API_BASE = "http://classwork.engr.oregonstate.edu:7689/api";
+const API_BASE = "http://classwork.engr.oregonstate.edu:7879/api";
 
 export default function ActorsMovies() {
   // Data sources
