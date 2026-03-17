@@ -1,3 +1,10 @@
+/*
+Tool: ChatGPT (GPT-5.3)
+Developer: OpenAI
+Use: Debugging assistance
+Date: March 16, 2026
+*/
+
 const express = require("express")
 const router = express.Router()
 const db = require("../db-connector")

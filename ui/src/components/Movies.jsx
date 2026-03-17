@@ -1,3 +1,10 @@
+/*
+Tool: ChatGPT (GPT-5.3)
+Developer: OpenAI
+Use: Debugging assistance
+Date: March 16, 2026
+*/
+
 import React, { useState, useEffect } from "react";
 import "./css/Standard.css";
 
